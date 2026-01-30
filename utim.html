@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNI CAFE UATV</title>
+
+<style>
+/* ===== RESET BÁSICO ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Cambria, Georgia, serif;
+  background: #E1B495;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #ae683a;
+  padding: 15px 25px;
+  z-index: 1000;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbar-brand {
+  color: white;
+  font-weight: bold;
+  font-size: 22px;
+  text-decoration: none;
+}
+
+.navbar-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-menu {
+  background: #b87443;
+  color: #fff;
+  border: 2px solid #b87443;
+  padding: 8px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-menu:hover {
+  background: #fff;
+  color: #b87443;
+}
+
+/* ===== SECCIONES ===== */
+.menu-seccion {
+  display: none;
+  padding: 140px 20px 40px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: cursive;
+}
+
+/* ===== LAYOUT ===== */
+.contenedor {
+  display: flex;
+  gap: 20px;
+}
+
+/* ===== CARRITO ===== */
+.carrito {
+  width: 230px;
+  position: sticky;
+  top: 120px;
+}
+
+.box {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#lista-carrito li {
+  list-style: none;
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#total {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#btn-pagar {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #28a745;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#btn-pagar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* ===== PRODUCTOS ===== */
+.productos {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 15px;
+  text-align: center;
+}
+
+.card h5 {
+  font-size: 20px;
+}
+
+.btn-ordenar {
+  margin-top: 10px;
+  background: #ae683a;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-ordenar:hover {
+  background: #8c532d;
+  color: white;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .contenedor {
+    flex-direction: column;
+  }
+
+  .carrito {
+    width: 100%;
+    position: relative;
+    top: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand">UNI CAFE UATV</a>
+    <div class="navbar-buttons">
+      <button class="btn-menu" onclick="mostrarSeccion('desayunos')">Desayunos</button>
+      <button class="btn-menu" onclick="mostrarSeccion('comida')">Comida</button>
+      <button class="btn-menu" onclick="mostrarSeccion('bebida')">Bebidas</button>
+      <button class="btn-menu" onclick="mostrarSeccion('postres')">Postres</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== DESAYUNOS ===== -->
+<section id="desayunos" class="menu-seccion">
+  <h2>DESAYUNOS</h2>
+
+  <div class="contenedor">
+
+    <!-- CARRITO -->
+    <div class="carrito">
+      <div class="box">
+        <h4>🛒 Tu carrito</h4>
+        <ul id="lista-carrito"></ul>
+        <p>Total: $<span id="total">0</span></p>
+        <button id="btn-pagar" disabled>Pagar</button>
+      </div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div class="productos">
+      <div class="card">
+        <img src="imagenes/hot.webp">
+        <div class="card-body">
+          <h5>Hot Cakes</h5>
+          <h5>$25</h5>
+          <button class="btn-ordenar" data-nombre="Hot Cakes" data-precio="25">Ordenar</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="imagenes/jugos.jpg">
+        <div class="card-body">
+          <h5>Jugos Naturales</h5>
+          <h5>$20</h5>
+          <button class="btn-ordenar" data-nombre="Jugos Naturales" data-precio="20">Ordenar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== jsPDF ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+let carrito = [];
+let total = 0;
+
+function mostrarSeccion(id) {
+  document.querySelectorAll('.menu-seccion').forEach(s => s.style.display = 'none');
+  document.getElementById(id).style.display = 'block';
+}
+
+mostrarSeccion('desayunos');
+
+function renderCarrito() {
+  const lista = document.getElementById("lista-carrito");
+  lista.innerHTML = "";
+  total = 0;
+
+  carrito.forEach((item, i) => {
+    total += item.precio * item.cantidad;
+    const li = document.createElement("li");
+    li.innerHTML = `
+      ${item.nombre} x${item.cantidad}
+      <button onclick="eliminar(${i})">✖</button>
+    `;
+    lista.appendChild(li);
+  });
+
+  document.getElementById("total").textContent = total;
+  document.getElementById("btn-pagar").disabled = carrito.length === 0;
+}
+
+document.querySelectorAll(".btn-ordenar").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const nombre = btn.dataset.nombre;
+    const precio = +btn.dataset.precio;
+    const item = carrito.find(p => p.nombre === nombre);
+    item ? item.cantidad++ : carrito.push({nombre, precio, cantidad:1});
+    renderCarrito();
+  });
+});
+
+function eliminar(i) {
+  carrito.splice(i, 1);
+  renderCarrito();
+}
+
+document.getElementById("btn-pagar").onclick = () => {
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF();
+  pdf.text("UNI CAFE UATV", 20, 20);
+  carrito.forEach((p, i) => {
+    pdf.text(`${p.nombre} x${p.cantidad} - $${p.precio*p.cantidad}`, 20, 40 + i*10);
+  });
+  pdf.text(`Total: $${total}`, 20, 80);
+  pdf.save("ticket.pdf");
+};
+</script>
+
+</body>
+</html>
