@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/estilos.css">
+</head>
+<body>
+<style>
+  body {
+      background: #E1B495;
+  }
+  .navbar {
+      background: #ae683a !important;
+  }
+  .card {
+      border-radius: 15px;
+      overflow: hidden;
+  }
+  /*.card-tittle ---- general*/
+  h5, p {
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-size: 25px;
+  }
+  
+  h2{
+      font-family:cursive;
+  }
+
+  #parf{
+      color: white;
+  }
+
+  #puntos{
+      margin-left: 25px;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  #f{
+      height: 275px;
+  }
+    header, nav {
+      background: #fffdfd !important; /* lila NO HACE NADA*/
+  }
+
+  .btn-outline-primary {
+      border-color: #dddae0;
+      color: white;
+  }
+  .btn-outline-primary:hover {
+      background: #f0b187;
+  }
+
+  /* Tarjetas */
+  .card {
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform .2s;
+  }
+  .card:hover {
+      transform: translateY(-5px);
+  }
+
+  /* Imágenes cuadradas */
+  .card-img-top {
+      object-fit: cover;
+      height: 220px;
+  }
+
+  /* Caja de texto grande */
+  .box {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  .btn-ordenar {
+      background: #ae683a;
+      color: #000;
+      font-weight: bold;
+      border-radius: 25px;
+      padding: 10px 25px;
+      text-decoration: none;
+      transition: 0.3s;
+      border: none;
+  }
+
+  .btn-ordenar:hover {
+      background: #ae683a;
+      color: white;
+  }
+
+  .btn-menu {
+    background: #b87443;
+    color: #fff;
+    border: 2px solid #b87443;
+    padding: 8px 18px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+
+  .btn-menu:hover {
+    background: #fff;
+    color: #b87443;
+    transform: translateY(-2px);
+  }
+
+  .btn-menu:active {
+    transform: scale(0.95);
+  }
+
+
+  .btn-menu.activo {
+    background: #fff;
+    color: #b87443;
+    box-shadow: 0 0 0 2px #b87443 inset;
+  }
+
+
+    /* ===== AJUSTES DE TAMAÑO DEL CARRITO ===== */
+
+  /* Texto general del carrito */
+  #lista-carrito li {
+    font-size: 14px;
+    padding: 6px 8px;
+  }
+
+  /* Nombre del producto */
+  #lista-carrito strong {
+    font-size: 14px;
+  }
+
+  /* Precio x cantidad */
+  #lista-carrito small {
+    font-size: 12px;
+    color: #555;
+  }
+
+  /* Botones + - eliminar */
+  #lista-carrito button {
+    padding: 2px 6px;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  /* Botón eliminar más compacto */
+  #lista-carrito .btn-danger {
+    padding: 2px 6px;
+  }
+
+  /* Contador de cantidad */
+  #lista-carrito span {
+    font-size: 13px;
+  }
+
+  /* Total */
+  #total {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  /* Botón pagar */
+  #btn-pagar {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  /* Caja del carrito más compacta */
+  .box {
+    padding: 15px;
+  }
+
+  #espacio{
+    margin-left: 40px;
+  }
+
+
+</style>
+
+
+<!-- 🔥 NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
+    <div class="container">
+        <!--<img src="imagenes/logo.png" alt="">-->
+        <a id="parf" class="navbar-brand fw-bold" href="">UNI CAFE UATV</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse text-center" id="menu">
+            <ul class="navbar-nav ms-auto gap-3">
+                <button class="btn-menu" onclick="mostrarSeccion('desayunos')" href="#desayuno">Desayunos</button>
+                <button class="btn-menu" onclick="mostrarSeccion('comida')" href="#comida">Comida</button>
+                <button class="btn-menu" onclick="mostrarSeccion('bebida')" href="#bebida">Bebida</button>
+                <button class="btn-menu" onclick="mostrarSeccion('postres')" href="#postres">Postres</button>
+                <button class="btn-menu" onclick="mostrarSeccion('golocinas')" href="#golocinas">Golocinas</button>
+                <button class="btn-menu" onclick="mostrarSeccion('frutas')" href="#frutas">Fruta</button>
+            </ul>
+        </div>
+
+        <li class="nav-item">
+        <!--<<a class="btn btn-outline-primary position-relative" href="#carrito">
+            🛒 Carrito-->
+            <span id="contador"
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            0
+            </span>
+        </a>
+        </li>
+    </div>
+</nav><br><br><br><br><br>
+
+<!-- Carrusel 
+<div id="slider" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <center><img src="imagenes/f3.webp" class="d-block w-98" alt="Imagen 1" height="500px"></center>
+        </div>
+        <div class="carousel-item">
+            <center><img src="imagenes/f2.jpg" class="d-block w-98" alt="Imagen 2" height="500px"></center>
+        </div>
+        <div class="carousel-item">
+            <center><img src="imagenes/f1.webp" class="d-block" alt="Imagen 3" height="500px" width="60%"></center>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#slider" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#slider" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#slider" data-bs-slide-to="0" class="active" aria-current="true"></button>
+        <button type="button" data-bs-target="#slider" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#slider" data-bs-slide-to="2"></button>
+    </div>
+</div>-->
+
+<!-- DESAYUNOS -->
+<section id="desayunos" class="menu-seccion" class="container-fluid py-5">
+
+  <div class="row">
+
+    <!-- 🛒 CARRITO IZQUIERDO -->
+    <div id="espacio" class="col-md-2">
+      <div class="box sticky-top" style="top:120px">
+        <h4 class="text-center">🛒 Tu carrito</h4>
+        <ul id="lista-carrito" class="list-group mb-3"></ul>
+        <h5 class="text-end">Total: $<span id="total">0</span></h5>
+          <div class="text-end mt-3">
+            <button id="btn-pagar" class="btn btn-success w-100" disabled>
+              💳 Pagar
+            </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍳 PRODUCTOS -->
+    <div class="col-md-9">
+      <h2 id="desayuno" class="text-center mb-4">DESAYUNOS</h2>
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/hot.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Hot Cakes</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Hot Cakes" data-precio="25">🛒 Ordenar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/jugos.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Jugos Naturales</h5>
+              <h5>$20</h5>
+              <button class="btn-ordenar" data-nombre="Jugos Naturales" data-precio="20">🛒 Ordenar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/yogurt.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Yogurth</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Yogurth" data-precio="15">🛒 Ordenar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/pan.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Café con Pan</h5>
+              <h5>$30</h5>
+              <button class="btn-ordenar" data-nombre="Cafe con Pan" data-precio="30">🛒 Ordenar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/donas.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Donas</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Donas" data-precio="15">🛒 Ordenar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/huevo.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Pan Tostado, Huevo y Ensalada</h5>
+              <h5>$20</h5>
+              <button class="btn-ordenar" data-nombre="Pan Tostado, Huevo y Ensalada" data-precio="20">🛒 Ordenar</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- COMIDAS -->
+<section id="comida" class="menu-seccion container-fluid py-4">
+
+  <div class="row">
+
+    <!-- 🛒 CARRITO IZQUIERDO -->
+    <div id="espacio" class="col-md-2">
+      <div class="box sticky-top" style="top:120px">
+        <h4 class="text-center">🛒 Tu carrito</h4>
+
+        <ul id="lista-carrito" class="list-group mb-2"></ul>
+
+        <h5 class="text-end">Total: $<span id="total">0</span></h5>
+
+        <div class="mt-3">
+          <button id="btn-pagar" class="btn btn-success w-100" disabled>
+            💳 Pagar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍽️ PRODUCTOS -->
+    <div class="col-md-9">
+
+      <h2 class="text-center mb-4">COMIDAS</h2>
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/bistec.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Bistec en salsa verde con frijoles</h5>
+              <h5>$50</h5>
+              <button class="btn-ordenar" data-nombre="Bistec en salsa verde con frijoles" data-precio="50">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/chalupitas.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Chalipitas preparadas con pollo</h5>
+              <h5>$40</h5>
+              <button class="btn-ordenar" data-nombre="Chalipitas preparadas con pollo" data-precio="40">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/aloz.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Arroz chino con alitas fritas de pollo</h5>
+              <h5>$50</h5>
+              <button class="btn-ordenar" data-nombre="Arroz chino con alitas fritas de pollo" data-precio="50">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/camarones.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Camarones a la diabla con arroz blanco</h5>
+              <h5>$50</h5>
+              <button class="btn-ordenar" data-nombre="Camarones a la diabla con arroz blanco" data-precio="50">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/enchiladas.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Enchiladas fritas verdes de pollo</h5>
+              <h5>$35</h5>
+              <button class="btn-ordenar" data-nombre="Enchiladas fritas verdes de pollo" data-precio="35">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/chilaquiles.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Chilaquieles con pollo o con huevo</h5>
+              <h5>$50</h5>
+              <button class="btn-ordenar" data-nombre="Chilaquieles con pollo o con huevo" data-precio="50">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- BEBIDAS -->
+<section id="bebida" class="menu-seccion container-fluid py-4">
+
+  <div class="row">
+
+    <!-- 🛒 CARRITO IZQUIERDO -->
+    <div id="espacio" class="col-md-2">
+      <div class="box sticky-top" style="top:120px">
+        <h4 class="text-center">🛒 Tu carrito</h4>
+
+        <ul id="lista-carrito" class="list-group mb-2"></ul>
+
+        <h5 class="text-end">Total: $<span id="total">0</span></h5>
+
+        <div class="mt-3">
+          <button id="btn-pagar" class="btn btn-success w-100" disabled>
+            💳 Pagar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍽️ PRODUCTOS -->
+    <div class="col-md-9">
+
+      <h2 class="text-center mb-4">BEBIDAS</h2>
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/boing.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Jugo Boing</h5>
+              <h5>$20</h5>
+              <button class="btn-ordenar" data-nombre="Jugo Boing" data-precio="20">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/agua.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Aguas Frescas</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Aguas Frescas" data-precio="15">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/coca.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Coca-Cola</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Coca-Cola" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/cafe.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Cafe Frio</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Cafe Frio" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/skarch.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Agua Skarch</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Agua Skarch" data-precio="15">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/lata.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Refresco en Lata</h5>
+              <h5>$20</h5>
+              <button class="btn-ordenar" data-nombre="Refresco en Lata" data-precio="20">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- POSTRES -->
+<section id="postres" class="menu-seccion container-fluid py-4">
+
+  <div class="row">
+
+    <!-- 🛒 CARRITO IZQUIERDO -->
+    <div id="espacio" class="col-md-2">
+      <div class="box sticky-top" style="top:120px">
+        <h4 class="text-center">🛒 Tu carrito</h4>
+
+        <ul id="lista-carrito" class="list-group mb-2"></ul>
+
+        <h5 class="text-end">Total: $<span id="total">0</span></h5>
+
+        <div class="mt-3">
+          <button id="btn-pagar" class="btn btn-success w-100" disabled>
+            💳 Pagar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍽️ PRODUCTOS -->
+    <div class="col-md-9">
+
+      <h2 class="text-center mb-4">COMIDAS</h2>
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/choco.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Chocoflan</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Chocoflan" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/flan.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Flan</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Flan" data-precio="15">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/pay.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Pay de Queso</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Pay de Queso" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/crema.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Fresas con Crema</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Fresas con Crema" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/panque.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Mofint de Chocolate</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Mofint de Chocolate" data-precio="55">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/relleno.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Pay Relleno de Mermelada</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Pay Relleno de Mermelada" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- GOLOCINAS -->
+<section id="golocinas" class="menu-seccion container-fluid py-4">
+
+  <div class="row">
+
+    <!-- 🛒 CARRITO IZQUIERDO -->
+    <div id="espacio" class="col-md-2">
+      <div class="box sticky-top" style="top:120px">
+        <h4 class="text-center">🛒 Tu carrito</h4>
+
+        <ul id="lista-carrito" class="list-group mb-2"></ul>
+
+        <h5 class="text-end">Total: $<span id="total">0</span></h5>
+
+        <div class="mt-3">
+          <button id="btn-pagar" class="btn btn-success w-100" disabled>
+            💳 Pagar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍽️ PRODUCTOS -->
+    <div class="col-md-9">
+
+      <h2 class="text-center mb-4">GOLOCINAS</h2>
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/chidas.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Papas CHIDAS</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Papas CHIDAS" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/bubulubu.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Bubulubu</h5>
+              <h5>$5</h5>
+              <button class="btn-ordenar" data-nombre="Bubulubu" data-precio="5">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/chicle.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Chicles Trident</h5>
+              <h5>$20</h5>
+              <button class="btn-ordenar" data-nombre="Chicles Triden" data-precio="20">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/gomita.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Gomitas Delfin</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Gomitas Delfin" data-precio="15">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/mango.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Gomitas de Mango</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Gomitas de Mango" data-precio="15">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/pistache.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Pistaches</h5>
+              <h5>$10</h5>
+              <button class="btn-ordenar" data-nombre="Pistaches" data-precio="10">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- FRUTAS -->
+<section id="frutas" class="menu-seccion container-fluid py-4">
+
+  <div class="row">
+
+    <!-- 🛒 CARRITO IZQUIERDO -->
+    <div id="espacio" class="col-md-2">
+      <div class="box sticky-top" style="top:120px">
+        <h4 class="text-center">🛒 Tu carrito</h4>
+
+        <ul id="lista-carrito" class="list-group mb-2"></ul>
+
+        <h5 class="text-end">Total: $<span id="total">0</span></h5>
+
+        <div class="mt-3">
+          <button id="btn-pagar" class="btn btn-success w-100" disabled>
+            💳 Pagar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍽️ PRODUCTOS -->
+    <div class="col-md-9">
+
+      <h2 class="text-center mb-4">FRUTAS</h2>
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <center><div class="col-md-4">
+          <div class="card">
+            <img id="f" src="imagenes/vaso.png" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Coctel de frutas</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Coctel de frutas" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div></center>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+<!-- BOOTSTRAP JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- SCRIPT -->
+<script>
+function mostrarSeccion(id) {
+  // Ocultar todas
+  document.querySelectorAll('.menu-seccion').forEach(sec => {
+    sec.style.display = 'none';
+  });
+
+  // Mostrar la seleccionada
+  const seccion = document.getElementById(id);
+  if (seccion) {
+    seccion.style.display = 'block';
+  }
+}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  mostrarSeccion('desayunos');
+});
+</script>
+
+
+<!-- SCRIPT DE CARRITO-->
+<script>
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+let total = 0;
+
+function guardarCarrito() {
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+function renderCarrito() {
+  const listas = document.querySelectorAll("#lista-carrito");
+  const totales = document.querySelectorAll("#total");
+  const botonesPagar = document.querySelectorAll("#btn-pagar");
+
+  listas.forEach(lista => lista.innerHTML = "");
+  total = 0;
+
+  carrito.forEach((item, index) => {
+    total += item.precio * item.cantidad;
+
+    listas.forEach(lista => {
+      const li = document.createElement("li");
+      li.className = "list-group-item d-flex justify-content-between align-items-center";
+
+      li.innerHTML = `
+        <div>
+          <strong>${item.nombre}</strong><br>
+          <small>$${item.precio} x ${item.cantidad}</small>
+        </div>
+
+        <div class="d-flex align-items-center gap-1">
+          <button class="btn btn-sm btn-secondary" onclick="cambiarCantidad(${index}, -1)">−</button>
+          <span class="mx-1">${item.cantidad}</span>
+          <button class="btn btn-sm btn-secondary" onclick="cambiarCantidad(${index}, 1)">+</button>
+          <button class="btn btn-sm btn-danger ms-2" onclick="eliminarProducto(${index})">✖</button>
+        </div>
+      `;
+
+      lista.appendChild(li);
+    });
+  });
+
+  totales.forEach(t => t.textContent = total);
+  botonesPagar.forEach(btn => btn.disabled = carrito.length === 0);
+}
+
+document.querySelectorAll(".btn-ordenar").forEach(boton => {
+  boton.addEventListener("click", () => {
+    const nombre = boton.dataset.nombre;
+    const precio = parseFloat(boton.dataset.precio);
+
+    const existente = carrito.find(item => item.nombre === nombre);
+
+    if (existente) {
+      existente.cantidad++;
+    } else {
+      carrito.push({ nombre, precio, cantidad: 1 });
+    }
+
+    guardarCarrito();
+    renderCarrito();
+  });
+});
+
+function cambiarCantidad(index, cambio) {
+  carrito[index].cantidad += cambio;
+
+  if (carrito[index].cantidad <= 0) {
+    carrito.splice(index, 1);
+  }
+
+  guardarCarrito();
+  renderCarrito();
+}
+
+function eliminarProducto(index) {
+  carrito.splice(index, 1);
+  guardarCarrito();
+  renderCarrito();
+}
+
+renderCarrito();
+</script>
+
+
+<!-- SCRIPT DEL BOTON DE PAGAR -->
+<script>
+const btnPagar = document.getElementById('btn-pagar');
+
+function actualizarBotonPagar() {
+  btnPagar.disabled = carrito.length === 0;
+}
+
+btnPagar.addEventListener('click', () => {
+  alert(`Gracias por tu compra 🛒\nTotal a pagar: $${total}`);
+});
+</script>
+
+
+
+<!-- ===== jsPDF ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- ===== GENERAR PDF ===== -->
+<script>
+document.getElementById('btn-pagar').addEventListener('click', () => {
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF();
+
+  const cliente = localStorage.getItem("usuario") || "Invitado";
+
+  pdf.setFontSize(16);
+  pdf.text("UNI CAFE UATV", 20, 20);
+
+  pdf.setFontSize(12);
+  pdf.text(`Cliente: ${cliente}`, 20, 30);
+  pdf.text("Ticket de compra", 20, 38);
+
+  let y = 55;
+  pdf.text("Productos:", 20, y);
+  y += 10;
+
+  carrito.forEach(item => {
+    pdf.text(
+      `${item.nombre} - $${item.precio} x ${item.cantidad} = $${item.precio * item.cantidad}`,
+      20,
+      y
+    );
+    y += 8;
+  });
+
+  y += 10;
+  pdf.setFontSize(14);
+  pdf.text(`Total a pagar: $${total}`, 20, y);
+
+  pdf.save("ticket_compra.pdf");
+});
+</script>
+
+
+
+
+
+</body>
+</html>
