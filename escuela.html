@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNI CAFE UATV</title>
+
+<style>
+/* ===== RESET BÁSICO ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Cambria, Georgia, serif;
+  background: #E1B495;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #ae683a;
+  padding: 15px 25px;
+  z-index: 1000;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbar-brand {
+  color: white;
+  font-weight: bold;
+  font-size: 22px;
+  text-decoration: none;
+}
+
+.navbar-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-menu {
+  background: #b87443;
+  color: #fff;
+  border: 2px solid #b87443;
+  padding: 8px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-menu:hover {
+  background: #fff;
+  color: #b87443;
+}
+
+/* ===== SECCIONES ===== */
+.menu-seccion {
+  display: none;
+  padding: 140px 20px 40px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: cursive;
+}
+
+/* ===== LAYOUT ===== */
+.contenedor {
+  display: flex;
+  gap: 20px;
+}
+
+/* ===== CARRITO ===== */
+.carrito {
+  width: 230px;
+  position: sticky;
+  top: 120px;
+}
+
+.box {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#lista-carrito li {
+  list-style: none;
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#total {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#btn-pagar {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #28a745;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#btn-pagar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* ===== PRODUCTOS ===== */
+.productos {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 15px;
+  text-align: center;
+}
+
+.card h5 {
+  font-size: 20px;
+}
+
+.btn-ordenar {
+  margin-top: 10px;
+  background: #ae683a;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-ordenar:hover {
+  background: #8c532d;
+  color: white;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .contenedor {
+    flex-direction: column;
+  }
+
+  .carrito {
+    width: 100%;
+    position: relative;
+    top: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand">UNI CAFE UATV</a>
+    <div class="navbar-buttons">
+      <button class="btn-menu" onclick="mostrarSeccion('desayunos')">Desayunos</button>
+      <button class="btn-menu" onclick="mostrarSeccion('comida')">Comida</button>
+      <button class="btn-menu" onclick="mostrarSeccion('bebida')">Bebidas</button>
+      <button class="btn-menu" onclick="mostrarSeccion('postres')">Postres</button>
+    </div>
+  </div>
+</nav>
+
+<!-- DESAYUNOS -->
+<section id="desayunos" class="menu-seccion" class="container-fluid py-5">
+
+  <div class="row">
+
+    <!-- 🛒 CARRITO IZQUIERDO -->
+    <div id="espacio" class="col-md-2">
+      <div class="box sticky-top" style="top:120px">
+        <h4 class="text-center">🛒 Tu carrito</h4>
+        <ul id="lista-carrito" class="list-group mb-3"></ul>
+        <h5 class="text-end">Total: $<span id="total">0</span></h5>
+          <div class="text-end mt-3">
+            <button id="btn-pagar" class="btn btn-success w-100" disabled>
+              💳 Pagar
+            </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍳 PRODUCTOS -->
+    <div class="col-md-9">
+      <h2 id="desayuno" class="text-center mb-4">DESAYUNOS</h2>
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./hot.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Hot Cakes</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Hot Cakes" data-precio="25">🛒 Ordenar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./jugos.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Jugos Naturales</h5>
+              <h5>$20</h5>
+              <button class="btn-ordenar" data-nombre="Jugos Naturales" data-precio="20">🛒 Ordenar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./yogurt.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Yogurth</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Yogurth" data-precio="15">🛒 Ordenar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./pan.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Café con Pan</h5>
+              <h5>$30</h5>
+              <button class="btn-ordenar" data-nombre="Cafe con Pan" data-precio="30">🛒 Ordenar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./donas.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Donas</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Donas" data-precio="15">🛒 Ordenar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./huevo.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Pan Tostado, Huevo y Ensalada</h5>
+              <h5>$20</h5>
+              <button class="btn-ordenar" data-nombre="Pan Tostado, Huevo y Ensalada" data-precio="20">🛒 Ordenar</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- COMIDAS -->
+<section id="comida" class="menu-seccion container-fluid py-4">
+
+  <div class="row">
+
+    <!-- 🛒 CARRITO IZQUIERDO -->
+    <div id="espacio" class="col-md-2">
+      <div class="box sticky-top" style="top:120px">
+        <h4 class="text-center">🛒 Tu carrito</h4>
+
+        <ul id="lista-carrito" class="list-group mb-2"></ul>
+
+        <h5 class="text-end">Total: $<span id="total">0</span></h5>
+
+        <div class="mt-3">
+          <button id="btn-pagar" class="btn btn-success w-100" disabled>
+            💳 Pagar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍽️ PRODUCTOS -->
+    <div class="col-md-9">
+
+      <h2 class="text-center mb-4">COMIDAS</h2>
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./bistec.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Bistec en salsa verde con frijoles</h5>
+              <h5>$50</h5>
+              <button class="btn-ordenar" data-nombre="Bistec en salsa verde con frijoles" data-precio="50">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./chalupitas.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Chalipitas preparadas con pollo</h5>
+              <h5>$40</h5>
+              <button class="btn-ordenar" data-nombre="Chalipitas preparadas con pollo" data-precio="40">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./aloz.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Arroz chino con alitas fritas de pollo</h5>
+              <h5>$50</h5>
+              <button class="btn-ordenar" data-nombre="Arroz chino con alitas fritas de pollo" data-precio="50">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./camarones.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Camarones a la diabla con arroz blanco</h5>
+              <h5>$50</h5>
+              <button class="btn-ordenar" data-nombre="Camarones a la diabla con arroz blanco" data-precio="50">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./enchiladas.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Enchiladas fritas verdes de pollo</h5>
+              <h5>$35</h5>
+              <button class="btn-ordenar" data-nombre="Enchiladas fritas verdes de pollo" data-precio="35">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./chilaquiles.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Chilaquieles con pollo o con huevo</h5>
+              <h5>$50</h5>
+              <button class="btn-ordenar" data-nombre="Chilaquieles con pollo o con huevo" data-precio="50">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- BEBIDAS -->
+<section id="bebida" class="menu-seccion container-fluid py-4">
+
+  <div class="row">
+
+    <!-- 🛒 CARRITO IZQUIERDO -->
+    <div id="espacio" class="col-md-2">
+      <div class="box sticky-top" style="top:120px">
+        <h4 class="text-center">🛒 Tu carrito</h4>
+
+        <ul id="lista-carrito" class="list-group mb-2"></ul>
+
+        <h5 class="text-end">Total: $<span id="total">0</span></h5>
+
+        <div class="mt-3">
+          <button id="btn-pagar" class="btn btn-success w-100" disabled>
+            💳 Pagar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍽️ PRODUCTOS -->
+    <div class="col-md-9">
+
+      <h2 class="text-center mb-4">BEBIDAS</h2>
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./boing.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Jugo Boing</h5>
+              <h5>$20</h5>
+              <button class="btn-ordenar" data-nombre="Jugo Boing" data-precio="20">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./agua.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Aguas Frescas</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Aguas Frescas" data-precio="15">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./coca.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Coca-Cola</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Coca-Cola" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./cafe.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Cafe Frio</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Cafe Frio" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./skarch.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Agua Skarch</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Agua Skarch" data-precio="15">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./lata.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Refresco en Lata</h5>
+              <h5>$20</h5>
+              <button class="btn-ordenar" data-nombre="Refresco en Lata" data-precio="20">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- POSTRES -->
+<section id="postres" class="menu-seccion container-fluid py-4">
+
+  <div class="row">
+
+    <!-- 🛒 CARRITO IZQUIERDO -->
+    <div id="espacio" class="col-md-2">
+      <div class="box sticky-top" style="top:120px">
+        <h4 class="text-center">🛒 Tu carrito</h4>
+
+        <ul id="lista-carrito" class="list-group mb-2"></ul>
+
+        <h5 class="text-end">Total: $<span id="total">0</span></h5>
+
+        <div class="mt-3">
+          <button id="btn-pagar" class="btn btn-success w-100" disabled>
+            💳 Pagar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍽️ PRODUCTOS -->
+    <div class="col-md-9">
+
+      <h2 class="text-center mb-4">COMIDAS</h2>
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./choco.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Chocoflan</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Chocoflan" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./flan.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Flan</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Flan" data-precio="15">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./pay.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Pay de Queso</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Pay de Queso" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./crema.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Fresas con Crema</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Fresas con Crema" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./panque.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Mofint de Chocolate</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Mofint de Chocolate" data-precio="55">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./relleno.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Pay Relleno de Mermelada</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Pay Relleno de Mermelada" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- GOLOCINAS -->
+<section id="golocinas" class="menu-seccion container-fluid py-4">
+
+  <div class="row">
+
+    <!-- 🛒 CARRITO IZQUIERDO -->
+    <div id="espacio" class="col-md-2">
+      <div class="box sticky-top" style="top:120px">
+        <h4 class="text-center">🛒 Tu carrito</h4>
+
+        <ul id="lista-carrito" class="list-group mb-2"></ul>
+
+        <h5 class="text-end">Total: $<span id="total">0</span></h5>
+
+        <div class="mt-3">
+          <button id="btn-pagar" class="btn btn-success w-100" disabled>
+            💳 Pagar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍽️ PRODUCTOS -->
+    <div class="col-md-9">
+
+      <h2 class="text-center mb-4">GOLOCINAS</h2>
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./chidas.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Papas CHIDAS</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Papas CHIDAS" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./bubulubu.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Bubulubu</h5>
+              <h5>$5</h5>
+              <button class="btn-ordenar" data-nombre="Bubulubu" data-precio="5">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./chicle.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Chicles Trident</h5>
+              <h5>$20</h5>
+              <button class="btn-ordenar" data-nombre="Chicles Triden" data-precio="20">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./gomita.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Gomitas Delfin</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Gomitas Delfin" data-precio="15">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./mango.jpg" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Gomitas de Mango</h5>
+              <h5>$15</h5>
+              <button class="btn-ordenar" data-nombre="Gomitas de Mango" data-precio="15">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./pistache.webp" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Pistaches</h5>
+              <h5>$10</h5>
+              <button class="btn-ordenar" data-nombre="Pistaches" data-precio="10">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- FRUTAS -->
+<section id="frutas" class="menu-seccion container-fluid py-4">
+
+  <div class="row">
+
+    <!-- 🛒 CARRITO IZQUIERDO -->
+    <div id="espacio" class="col-md-2">
+      <div class="box sticky-top" style="top:120px">
+        <h4 class="text-center">🛒 Tu carrito</h4>
+
+        <ul id="lista-carrito" class="list-group mb-2"></ul>
+
+        <h5 class="text-end">Total: $<span id="total">0</span></h5>
+
+        <div class="mt-3">
+          <button id="btn-pagar" class="btn btn-success w-100" disabled>
+            💳 Pagar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍽️ PRODUCTOS -->
+    <div class="col-md-9">
+
+      <h2 class="text-center mb-4">FRUTAS</h2>
+
+      <div class="row g-4">
+
+        <!-- CARD 1 -->
+        <center><div class="col-md-4">
+          <div class="card">
+            <img id="f" src="./vaso.png" class="card-img-top">
+            <div class="card-body text-center">
+              <h5>Coctel de frutas</h5>
+              <h5>$25</h5>
+              <button class="btn-ordenar" data-nombre="Coctel de frutas" data-precio="25">
+                🛒 Ordenar
+              </button>
+            </div>
+          </div>
+        </div></center>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===== jsPDF ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+let carrito = [];
+let total = 0;
+
+function mostrarSeccion(id) {
+  document.querySelectorAll('.menu-seccion').forEach(s => s.style.display = 'none');
+  document.getElementById(id).style.display = 'block';
+}
+
+mostrarSeccion('desayunos');
+
+function renderCarrito() {
+  const lista = document.getElementById("lista-carrito");
+  lista.innerHTML = "";
+  total = 0;
+
+  carrito.forEach((item, i) => {
+    total += item.precio * item.cantidad;
+    const li = document.createElement("li");
+    li.innerHTML = `
+      ${item.nombre} x${item.cantidad}
+      <button onclick="eliminar(${i})">✖</button>
+    `;
+    lista.appendChild(li);
+  });
+
+  document.getElementById("total").textContent = total;
+  document.getElementById("btn-pagar").disabled = carrito.length === 0;
+}
+
+document.querySelectorAll(".btn-ordenar").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const nombre = btn.dataset.nombre;
+    const precio = +btn.dataset.precio;
+    const item = carrito.find(p => p.nombre === nombre);
+    item ? item.cantidad++ : carrito.push({nombre, precio, cantidad:1});
+    renderCarrito();
+  });
+});
+
+function eliminar(i) {
+  carrito.splice(i, 1);
+  renderCarrito();
+}
+
+document.getElementById("btn-pagar").onclick = () => {
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF();
+  pdf.text("UNI CAFE UATV", 20, 20);
+  carrito.forEach((p, i) => {
+    pdf.text(`${p.nombre} x${p.cantidad} - $${p.precio*p.cantidad}`, 20, 40 + i*10);
+  });
+  pdf.text(`Total: $${total}`, 20, 80);
+  pdf.save("ticket.pdf");
+};
+</script>
+
+</body>
+</html>
