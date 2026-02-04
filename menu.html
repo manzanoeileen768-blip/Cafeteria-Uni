@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UNI CAFE UATV</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
 :root{--cafe-oscuro:#a56232;--cafe-medio:#b87342;--cafe-claro:#e6c1a1;}
 *{box-sizing:border-box;font-family:Arial;margin:0;padding:0}
@@ -12,12 +12,44 @@ body{background:var(--cafe-claro)}
 header{background:var(--cafe-oscuro);padding:20px;color:white}
 nav a{background:var(--cafe-medio);color:white;padding:10px 18px;border-radius:20px;text-decoration:none;margin-right:10px}
 section{padding:40px;max-width:1200px;margin:auto}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+
+/* 🔹 3 ARRIBA / 3 ABAJO */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+@media(max-width:768px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .grid{grid-template-columns:1fr}
+}
+
 .card{background:white;padding:20px;border-radius:15px;text-align:center;box-shadow:0 5px 10px rgba(0,0,0,.2)}
 button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;border-radius:10px;cursor:pointer}
-#carrito{position:fixed;right:20px;top:120px;background:white;width:260px;padding:15px;border-radius:15px;box-shadow:0 5px 10px rgba(0,0,0,.3)}
+
+#carrito{
+  position:fixed;
+  right:20px;
+  top:120px;
+  background:white;
+  width:280px;
+  padding:15px;
+  border-radius:15px;
+  box-shadow:0 5px 10px rgba(0,0,0,.3)
+}
+
+#lista li{list-style:none;margin-bottom:10px}
+
+.cantidad button{
+  padding:3px 8px;
+  margin:0 5px;
+}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -32,12 +64,15 @@ button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;bor
 </nav>
 </header>
 
+<!-- 🛒 CARRITO -->
 <div id="carrito">
 <h3>🛒 Carrito</h3>
 <ul id="lista"></ul>
 <p>Total: $<span id="total">0</span></p>
 <button onclick="pagar()">Pagar</button>
 </div>
+
+<!-- 🔽 🔽 🔽 TUS SECCIONES NO SE TOCAN 🔽 🔽 🔽 -->
 
 <section id="desayunos">
 <h2>Desayunos</h2>
@@ -60,7 +95,6 @@ button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;bor
 <div class="card"><h3>Camarones a la diabla con arroz blanco</h3><p>$50</p><button onclick="agregar('Torta',30)">Agregar</button></div>
 <div class="card"><h3>Enchiladas fritas verdes de pollo</h3><p>$35</p><button onclick="agregar('Hamburguesa',50)">Agregar</button></div>
 <div class="card"><h3>Chilaquieles con pollo o con huevo</h3><p>$50</p><button onclick="agregar('Hamburguesa',50)">Agregar</button></div>
-
 </div>
 </section>
 
@@ -76,7 +110,6 @@ button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;bor
 </div>
 </section>
 
-
 <section id="postres">
 <h2>Postres</h2>
 <div class="grid">
@@ -88,8 +121,6 @@ button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;bor
 <div class="card"><h3>Pay Relleno de Mermeladaa</h3><p>$25</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
 </div>
 </section>
-
-
 
 <section id="golocinas">
 <h2>Golocinas</h2>
@@ -103,8 +134,6 @@ button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;bor
 </div>
 </section>
 
-
-
 <section id="fruta">
 <h2>Fruta</h2>
 <div class="grid">
@@ -112,9 +141,90 @@ button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;bor
 </div>
 </section>
 
+<script>
+let carrito = [];
+
+// 🔢 OBTENER TICKET ACTUAL (AUTOINCREMENTAL)
+let ticket = localStorage.getItem("ticket");
+if(ticket === null){
+  ticket = 1;
+}else{
+  ticket = parseInt(ticket);
+}
+
+function agregar(nombre, precio){
+  let prod = carrito.find(p => p.nombre === nombre);
+  if(prod){
+    prod.cantidad++;
+  }else{
+    carrito.push({nombre, precio, cantidad:1});
+  }
+  mostrarCarrito();
+}
+
+function cambiarCantidad(nombre, cambio){
+  let prod = carrito.find(p => p.nombre === nombre);
+  prod.cantidad += cambio;
+
+  if(prod.cantidad <= 0){
+    carrito = carrito.filter(p => p.nombre !== nombre);
+  }
+  mostrarCarrito();
+}
+
+function mostrarCarrito(){
+  const lista = document.getElementById("lista");
+  const total = document.getElementById("total");
+  lista.innerHTML="";
+  let suma=0;
+
+  carrito.forEach(p=>{
+    suma += p.precio * p.cantidad;
+    lista.innerHTML += `
+      <li>
+        ${p.nombre}
+        <div class="cantidad">
+          <button onclick="cambiarCantidad('${p.nombre}',-1)">−</button>
+          ${p.cantidad}
+          <button onclick="cambiarCantidad('${p.nombre}',1)">+</button>
+        </div>
+      </li>
+    `;
+  });
+
+  total.textContent = suma;
+}
+
+function pagar(){
+  if(carrito.length === 0){
+    alert("El carrito está vacío");
+    return;
+  }
+
+  let total = document.getElementById("total").textContent;
+
+  // 🧾 MOSTRAR TICKET
+  let mensaje = `🧾 UNI CAFE UATV\n\n`;
+  mensaje += `Ticket No: ${ticket}\n\n`;
+
+  carrito.forEach(p=>{
+    mensaje += `${p.nombre} x${p.cantidad} = $${p.precio * p.cantidad}\n`;
+  });
+
+  mensaje += `\nTOTAL: $${total}\n\nGracias por su compra 😊`;
+
+  alert(mensaje);
+
+  // 🔼 INCREMENTAR TICKET
+  ticket++;
+  localStorage.setItem("ticket", ticket);
+
+  // LIMPIAR CARRITO
+  carrito = [];
+  mostrarCarrito();
+}
+</script>
+
 
 </body>
 </html>
-
-
-
