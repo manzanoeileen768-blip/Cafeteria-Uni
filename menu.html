@@ -122,14 +122,8 @@ button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;bor
 </div>
 </section>
 
-<script>
-let carrito=[];let total=0;let usuario='';
-function login(){usuario=document.getElementById('usuario').value;if(usuario){document.getElementById('login').style.display='none';}}
-function agregar(nombre,precio){carrito.push({nombre,precio});total+=precio;render();}
-function render(){const lista=document.getElementById('lista');lista.innerHTML='';carrito.forEach(p=>{let li=document.createElement('li');li.textContent=p.nombre+' $'+p.precio;lista.appendChild(li)});document.getElementById('total').textContent=total;}
-function pagar(){const {jsPDF}=window.jspdf;let pdf=new jsPDF();pdf.text('UNI CAFE UATV',20,20);pdf.text('Cliente: '+usuario,20,30);let y=40;carrito.forEach(p=>{pdf.text(p.nombre+' $'+p.precio,20,y);y+=10});pdf.text('Total: $'+total,20,y+10);pdf.save('ticket.pdf');carrito=[];total=0;render();}
-</script>
 
 </body>
 </html>
+
 
