@@ -4,311 +4,77 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UNI CAFE UATV</title>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  font-family: Cambria, Georgia, serif;
-  background:#E1B495;
-}
-
-/* ===== NAVBAR ===== */
-.navbar{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:#ae683a;
-  padding:15px 25px;
-  z-index:1000;
-}
-
-.navbar .container{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-.navbar-brand{
-  color:white;
-  font-size:22px;
-  font-weight:bold;
-}
-
-.navbar-buttons button{
-  margin:5px;
-  padding:8px 16px;
-  border-radius:12px;
-  border:none;
-  background:#b87443;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.navbar-buttons button:hover{
-  background:white;
-  color:#b87443;
-}
-
-/* ===== LAYOUT ===== */
-.layout{
-  display:flex;
-  gap:25px;
-  padding:130px 25px 40px;
-}
-
-/* ===== CARRITO ===== */
-.carrito{
-  width:280px;
-  position:sticky;
-  top:120px;
-}
-
-.box{
-  background:white;
-  padding:15px;
-  border-radius:15px;
-  box-shadow:0 4px 8px rgba(0,0,0,.15);
-}
-
-#lista-carrito li{
-  list-style:none;
-  margin-bottom:10px;
-  font-size:14px;
-}
-
-.item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.controles button{
-  padding:3px 7px;
-  border:none;
-  background:#ae683a;
-  color:white;
-  border-radius:5px;
-  cursor:pointer;
-}
-
-.controles span{
-  margin:0 6px;
-  font-weight:bold;
-}
-
-#btn-pagar{
-  width:100%;
-  margin-top:10px;
-  padding:10px;
-  background:#28a745;
-  color:white;
-  font-weight:bold;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-#btn-pagar:disabled{
-  background:#ccc;
-}
-
-/* ===== CONTENIDO ===== */
-.contenido{flex:1}
-
-.menu-seccion{
-  display:none;
-  margin-bottom:40px;
-}
-
-.menu-seccion h2{
-  text-align:center;
-  margin-bottom:25px;
-  font-family:cursive;
-}
-
-/* ===== GRID PRODUCTOS ===== */
-.productos{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:25px;
-}
-
-.card{
-  background:white;
-  border-radius:15px;
-  overflow:hidden;
-  transition:transform .2s;
-}
-
-.card:hover{transform:translateY(-5px)}
-
-.card img{
-  width:100%;
-  height:200px;
-  object-fit:cover;
-}
-
-.card-body{
-  padding:15px;
-  text-align:center;
-}
-
-.btn-ordenar{
-  margin-top:10px;
-  padding:8px 18px;
-  border-radius:20px;
-  border:none;
-  background:#ae683a;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:1000px){
-  .productos{grid-template-columns:repeat(2,1fr)}
-}
-
-@media(max-width:600px){
-  .layout{flex-direction:column}
-  .carrito{width:100%;position:relative}
-  .productos{grid-template-columns:1fr}
-}
+:root{--cafe-oscuro:#a56232;--cafe-medio:#b87342;--cafe-claro:#e6c1a1;}
+*{box-sizing:border-box;font-family:Arial;margin:0;padding:0}
+body{background:var(--cafe-claro)}
+header{background:var(--cafe-oscuro);padding:20px;color:white}
+nav a{background:var(--cafe-medio);color:white;padding:10px 18px;border-radius:20px;text-decoration:none;margin-right:10px}
+section{padding:40px;max-width:1200px;margin:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.card{background:white;padding:20px;border-radius:15px;text-align:center;box-shadow:0 5px 10px rgba(0,0,0,.2)}
+button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;border-radius:10px;cursor:pointer}
+#carrito{position:fixed;right:20px;top:120px;background:white;width:260px;padding:15px;border-radius:15px;box-shadow:0 5px 10px rgba(0,0,0,.3)}
+#login{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center}
+#login div{background:white;padding:30px;border-radius:15px;text-align:center}
 </style>
 </head>
-
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <div class="container">
-    <div class="navbar-brand">UNI CAFE UATV</div>
-    <div class="navbar-buttons">
-      <button onclick="mostrar('desayunos')">Desayunos</button>
-      <button onclick="mostrar('comida')">Comida</button>
-      <button onclick="mostrar('bebidas')">Bebidas</button>
-      <button onclick="mostrar('postres')">Postres</button>
-    </div>
+<div id="login">
+  <div>
+    <h2>Iniciar sesión</h2><br>
+    <input id="usuario" placeholder="Nombre del usuario"><br><br>
+    <button onclick="login()">Entrar</button>
   </div>
+</div>
+
+<header>
+<h1>UNI CAFE UATV</h1>
+<nav>
+<a href="#desayunos">Desayunos</a>
+<a href="#comida">Comida</a>
+<a href="#bebida">Bebida</a>
 </nav>
+</header>
 
-<div class="layout">
+<div id="carrito">
+<h3>🛒 Carrito</h3>
+<ul id="lista"></ul>
+<p>Total: $<span id="total">0</span></p>
+<button onclick="pagar()">Pagar</button>
+</div>
 
-<!-- CARRITO -->
-<aside class="carrito">
-  <div class="box">
-    <h4>🛒 Tu carrito</h4>
-    <ul id="lista-carrito"></ul>
-    <hr>
-    <p><strong>Total: $<span id="total">0</span></strong></p>
-    <button id="btn-pagar" disabled>Pagar</button>
-  </div>
-</aside>
-
-<!-- CONTENIDO -->
-<main class="contenido">
-
-<section id="desayunos" class="menu-seccion">
-<h2>DESAYUNOS</h2>
-<div class="productos">
-
-<div class="card"><img src="imagenes/hot.webp"><div class="card-body">
-<h4>Hot Cakes</h4><p>$25</p>
-<button class="btn-ordenar" data-nombre="Hot Cakes" data-precio="25">Ordenar</button>
-</div></div>
-
-<div class="card"><img src="imagenes/jugo.jpg"><div class="card-body">
-<h4>Jugo Natural</h4><p>$20</p>
-<button class="btn-ordenar" data-nombre="Jugo Natural" data-precio="20">Ordenar</button>
-</div></div>
-
-<div class="card"><img src="imagenes/huevo.jpg"><div class="card-body">
-<h4>Huevos</h4><p>$30</p>
-<button class="btn-ordenar" data-nombre="Huevos" data-precio="30">Ordenar</button>
-</div></div>
-
+<section id="desayunos">
+<h2>Desayunos</h2>
+<div class="grid">
+<div class="card"><h3>Café</h3><p>$20</p><button onclick="agregar('Café',20)">Agregar</button></div>
+<div class="card"><h3>Hot Cakes</h3><p>$35</p><button onclick="agregar('Hot Cakes',35)">Agregar</button></div>
 </div>
 </section>
 
-</main>
+<section id="comida">
+<h2>Comida</h2>
+<div class="grid">
+<div class="card"><h3>Hamburguesa</h3><p>$50</p><button onclick="agregar('Hamburguesa',50)">Agregar</button></div>
+<div class="card"><h3>Torta</h3><p>$30</p><button onclick="agregar('Torta',30)">Agregar</button></div>
 </div>
+</section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<section id="bebida">
+<h2>Bebida</h2>
+<div class="grid">
+<div class="card"><h3>Refresco</h3><p>$18</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
+</div>
+</section>
 
 <script>
-const usuario = localStorage.getItem("usuario") || "Cliente";
-let carrito = [];
-
-function mostrar(id){
-  document.querySelectorAll(".menu-seccion").forEach(s=>s.style.display="none");
-  document.getElementById(id).style.display="block";
-}
-mostrar("desayunos");
-
-function renderCarrito(){
-  const lista=document.getElementById("lista-carrito");
-  lista.innerHTML="";
-  let total=0;
-
-  carrito.forEach((p,i)=>{
-    total+=p.precio*p.cantidad;
-    lista.innerHTML+=`
-    <li>
-      <div class="item">
-        <span>${p.nombre}</span>
-        <div class="controles">
-          <button onclick="cambiar(${i},-1)">➖</button>
-          <span>${p.cantidad}</span>
-          <button onclick="cambiar(${i},1)">➕</button>
-          <button onclick="eliminar(${i})">❌</button>
-        </div>
-      </div>
-    </li>`;
-  });
-
-  document.getElementById("total").textContent=total;
-  document.getElementById("btn-pagar").disabled=carrito.length===0;
-}
-
-document.querySelectorAll(".btn-ordenar").forEach(btn=>{
-  btn.onclick=()=>{
-    const nombre=btn.dataset.nombre;
-    const precio=+btn.dataset.precio;
-    const p=carrito.find(x=>x.nombre===nombre);
-    p?p.cantidad++:carrito.push({nombre,precio,cantidad:1});
-    renderCarrito();
-  };
-});
-
-function cambiar(i,val){
-  carrito[i].cantidad+=val;
-  if(carrito[i].cantidad<=0) carrito.splice(i,1);
-  renderCarrito();
-}
-
-function eliminar(i){
-  carrito.splice(i,1);
-  renderCarrito();
-}
-
-document.getElementById("btn-pagar").onclick=()=>{
-  const {jsPDF}=window.jspdf;
-  const pdf=new jsPDF();
-  pdf.text("UNI CAFE UATV",20,20);
-  pdf.text("Cliente: "+usuario,20,30);
-  let y=45;
-  let total=0;
-  carrito.forEach(p=>{
-    pdf.text(`${p.nombre} x${p.cantidad} - $${p.precio*p.cantidad}`,20,y);
-    total+=p.precio*p.cantidad;
-    y+=10;
-  });
-  pdf.text("Total: $"+total,20,y+10);
-  pdf.save("ticket.pdf");
-};
+let carrito=[];let total=0;let usuario='';
+function login(){usuario=document.getElementById('usuario').value;if(usuario){document.getElementById('login').style.display='none';}}
+function agregar(nombre,precio){carrito.push({nombre,precio});total+=precio;render();}
+function render(){const lista=document.getElementById('lista');lista.innerHTML='';carrito.forEach(p=>{let li=document.createElement('li');li.textContent=p.nombre+' $'+p.precio;lista.appendChild(li)});document.getElementById('total').textContent=total;}
+function pagar(){const {jsPDF}=window.jspdf;let pdf=new jsPDF();pdf.text('UNI CAFE UATV',20,20);pdf.text('Cliente: '+usuario,20,30);let y=40;carrito.forEach(p=>{pdf.text(p.nombre+' $'+p.precio,20,y);y+=10});pdf.text('Total: $'+total,20,y+10);pdf.save('ticket.pdf');carrito=[];total=0;render();}
 </script>
 
 </body>
