@@ -5,79 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UNI CAFE UATV</title>
 
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
 :root{
 --cafe-oscuro:#a56232;
 --cafe-medio:#b87342;
 --cafe-claro:#e6c1a1;
 }
-*{
-  box-sizing:border-box;
-  font-family:Arial;
-  margin:0;padding:0
-}
-body{
-  background:var(--cafe-claro)
-}
-header{
-  background:var(--cafe-oscuro);
-  padding:20px;color:white
-}
-nav a{
-  background:var(--cafe-medio);
-  color:white;padding:10px 18px;
-  border-radius:20px;
-  text-decoration:none;
-  margin-right:10px
-}
-section{
-  padding:40px;
-  max-width:1200px;
-  margin:auto
-}
-
-.card img{
-  width:100%;
-  height:160px;      /* 🔹 altura fija (puedes cambiar el número si quieres) */
-  object-fit:cover; /* 🔹 recorta sin deformar */
-  border-radius:10px;
-}
-
-
-/* 🔹 3 ARRIBA / 3 ABAJO */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-}
-
-@media(max-width:768px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:480px){
-  .grid{grid-template-columns:1fr}
-}
-
+*{box-sizing:border-box;font-family:Arial;margin:0;padding:0}
+body{background:var(--cafe-claro)}
+header{background:var(--cafe-oscuro);padding:20px;color:white}
+nav a{background:var(--cafe-medio);color:white;padding:10px 18px;border-radius:20px;text-decoration:none;margin-right:10px}
+section{padding:40px;max-width:1200px;margin:auto}
+.card img{width:100%;height:160px;object-fit:cover;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
 .card{background:white;padding:20px;border-radius:15px;text-align:center;box-shadow:0 5px 10px rgba(0,0,0,.2)}
 button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;border-radius:10px;cursor:pointer}
-
-#carrito{
-  position:fixed;
-  right:20px;
-  top:120px;
-  background:white;
-  width:280px;
-  padding:15px;
-  border-radius:15px;
-  box-shadow:0 5px 10px rgba(0,0,0,.3)
-}
-
+#carrito{position:fixed;right:20px;top:120px;background:white;width:280px;padding:15px;border-radius:15px;box-shadow:0 5px 10px rgba(0,0,0,.3)}
 #lista li{list-style:none;margin-bottom:10px}
-
-.cantidad button{
-  padding:3px 8px;
-  margin:0 5px;
-}
+.cantidad button{padding:3px 8px;margin:0 5px}
 </style>
 </head>
 
@@ -95,7 +45,6 @@ button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;bor
 </nav>
 </header>
 
-<!-- 🛒 CARRITO -->
 <div id="carrito">
 <h3>🛒 Carrito</h3>
 <ul id="lista"></ul>
@@ -103,100 +52,94 @@ button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;bor
 <button onclick="pagar()">Pagar</button>
 </div>
 
-<!-- 🔽 🔽 🔽 TUS SECCIONES NO SE TOCAN 🔽 🔽 🔽 -->
-
+<!-- DESAYUNOS -->
 <section id="desayunos">
 <h2>Desayunos</h2>
 <div class="grid">
-<div class="card"><img src="./hot.webp" alt="Hot Cakes"><h3>Hot Cakes</h3><p>$25</p><button onclick="agregar('Café',20)">Agregar</button></div>
-<div class="card"><img src="./jugos.jpg" alt="Jugos Naturales"><h3>Jugos Naturales</h3><p>$20</p><button onclick="agregar('Hot Cakes',35)">Agregar</button></div> 
-<div class="card"><img src="./yogurt.webp" alt="Yogurth"><h3>Yogurth</h3><p>$15</p><button onclick="agregar('Café',20)">Agregar</button></div>
-<div class="card"><img src="./pan.jpg" alt="Café con Pan"><h3>Café con Pan</h3><p>$30</p><button onclick="agregar('Hot Cakes',35)">Agregar</button></div> 
-<div class="card"><img src="./donas.webp" alt="Donas"><h3>Donas</h3><p>$15</p><button onclick="agregar('Hot Cakes',35)">Agregar</button></div>
-<div class="card"><img src="./huevo.jpg" alt="Pan Tostado, Huevo y Ensalada"><h3>Pan Tostado, Huevo y Ensalada</h3><p>$20</p><button onclick="agregar('Hot Cakes',35)">Agregar</button></div>
+<div class="card"><img src="./hot.webp"><h3>Hot Cakes</h3><p>$25</p><button onclick="agregar('Hot Cakes',25)">Agregar</button></div>
+<div class="card"><img src="./jugos.jpg"><h3>Jugos Naturales</h3><p>$20</p><button onclick="agregar('Jugos Naturales',20)">Agregar</button></div>
+<div class="card"><img src="./yogurt.webp"><h3>Yogurth</h3><p>$15</p><button onclick="agregar('Yogurth',15)">Agregar</button></div>
+<div class="card"><img src="./pan.jpg"><h3>Café con Pan</h3><p>$30</p><button onclick="agregar('Café con Pan',30)">Agregar</button></div>
+<div class="card"><img src="./donas.webp"><h3>Donas</h3><p>$15</p><button onclick="agregar('Donas',15)">Agregar</button></div>
+<div class="card"><img src="./huevo.jpg"><h3>Pan Tostado con Huevo</h3><p>$20</p><button onclick="agregar('Pan Tostado con Huevo',20)">Agregar</button></div>
 </div>
 </section>
 
+<!-- COMIDA -->
 <section id="comida">
 <h2>Comida</h2>
 <div class="grid">
-<div class="card"><img src="./bistec.jpg" alt="Bistec en salsa verde con frijoles"><h3>Bistec en salsa verde con frijoles</h3><p>$50</p><button onclick="agregar('Hamburguesa',50)">Agregar</button></div>
-<div class="card"><img src="./chalupitas.jpg" alt="Chalipitas preparadas con pollo"><h3>Chalipitas preparadas con pollo</h3><p>$40</p><button onclick="agregar('Torta',30)">Agregar</button></div>
-<div class="card"><img src="./aloz.jpg" alt="Arroz chino con alitas fritas de pollo"><h3>Arroz chino con alitas fritas de pollo</h3><p>$50</p><button onclick="agregar('Hamburguesa',50)">Agregar</button></div>
-<div class="card"><img src="./camarones.jpg" alt="Camarones a la diabla con arroz blanco"><h3>Camarones a la diabla con arroz blanco</h3><p>$50</p><button onclick="agregar('Torta',30)">Agregar</button></div>
-<div class="card"><img src="./enchiladas.webp" alt="Enchiladas fritas verdes de pollo"><h3>Enchiladas fritas verdes de pollo</h3><p>$35</p><button onclick="agregar('Hamburguesa',50)">Agregar</button></div>
-<div class="card"><img src="./chilaquiles.jpg" alt="Chilaquieles con pollo o con huevo"><h3>Chilaquieles con pollo o con huevo</h3><p>$50</p><button onclick="agregar('Hamburguesa',50)">Agregar</button></div>
+<div class="card"><img src="./bistec.jpg"><h3>Bistec en salsa verde</h3><p>$50</p><button onclick="agregar('Bistec en salsa verde',50)">Agregar</button></div>
+<div class="card"><img src="./chalupitas.jpg"><h3>Chalupitas con pollo</h3><p>$40</p><button onclick="agregar('Chalupitas con pollo',40)">Agregar</button></div>
+<div class="card"><img src="./aloz.jpg"><h3>Arroz chino con alitas</h3><p>$50</p><button onclick="agregar('Arroz chino con alitas',50)">Agregar</button></div>
+<div class="card"><img src="./camarones.jpg"><h3>Camarones a la diabla</h3><p>$50</p><button onclick="agregar('Camarones a la diabla',50)">Agregar</button></div>
+<div class="card"><img src="./enchiladas.webp"><h3>Enchiladas verdes</h3><p>$35</p><button onclick="agregar('Enchiladas verdes',35)">Agregar</button></div>
+<div class="card"><img src="./chilaquiles.jpg"><h3>Chilaquiles</h3><p>$50</p><button onclick="agregar('Chilaquiles',50)">Agregar</button></div>
 </div>
 </section>
 
+<!-- BEBIDA -->
 <section id="bebida">
 <h2>Bebida</h2>
 <div class="grid">
-<div class="card"><img src="./boing.webp" alt="Jugo Boing"><h3>Jugo Boing</h3><p>$20</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./agua.jpg" alt="Aguas Frescas"><h3>Aguas Frescas</h3><p>$15</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./coca.jpg" alt="Coca-Cola"><h3>Coca-Cola</h3><p>$25</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./cafe.jpg" alt="Cafe Frio"><h3>Cafe Frio</h3><p>$25</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./skarch.jpg" alt="Agua Skarch"><h3>Agua Skarch</h3><p>$15</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./lata.webp" alt="Refresco en Lata"><h3>Refresco en Lata</h3><p>$20</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
+<div class="card"><img src="./boing.webp"><h3>Jugo Boing</h3><p>$20</p><button onclick="agregar('Jugo Boing',20)">Agregar</button></div>
+<div class="card"><img src="./agua.jpg"><h3>Aguas Frescas</h3><p>$15</p><button onclick="agregar('Aguas Frescas',15)">Agregar</button></div>
+<div class="card"><img src="./coca.jpg"><h3>Coca-Cola</h3><p>$25</p><button onclick="agregar('Coca-Cola',25)">Agregar</button></div>
+<div class="card"><img src="./cafe.jpg"><h3>Café Frío</h3><p>$25</p><button onclick="agregar('Café Frío',25)">Agregar</button></div>
+<div class="card"><img src="./skarch.jpg"><h3>Agua Skarch</h3><p>$15</p><button onclick="agregar('Agua Skarch',15)">Agregar</button></div>
+<div class="card"><img src="./lata.webp"><h3>Refresco en lata</h3><p>$20</p><button onclick="agregar('Refresco en lata',20)">Agregar</button></div>
 </div>
 </section>
 
+<!-- POSTRES -->
 <section id="postres">
 <h2>Postres</h2>
 <div class="grid">
-<div class="card"><img src="./choco.jpg" alt="Chocoflan"><h3>Chocoflan</h3><p>$25</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./flan.jpg" alt="Flans"><h3>Flans</h3><p>$15</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./pay.jpg" alt="Pay de Queso"><h3>Pay de Queso</h3><p>$25</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./crema.jpg" alt="Fresas con Crema"><h3>Fresas con Crema</h3><p>$25</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./panque.jpg" alt="Mofint de Chocolate"><h3>Mofint de Chocolate</h3><p>$25</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./relleno.jpg" alt="Pay Relleno de Mermelada"><h3>Pay Relleno de Mermelada</h3><p>$25</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
+<div class="card"><img src="./choco.jpg"><h3>Chocoflan</h3><p>$25</p><button onclick="agregar('Chocoflan',25)">Agregar</button></div>
+<div class="card"><img src="./flan.jpg"><h3>Flan</h3><p>$15</p><button onclick="agregar('Flan',15)">Agregar</button></div>
+<div class="card"><img src="./pay.jpg"><h3>Pay de Queso</h3><p>$25</p><button onclick="agregar('Pay de Queso',25)">Agregar</button></div>
+<div class="card"><img src="./crema.jpg"><h3>Fresas con Crema</h3><p>$25</p><button onclick="agregar('Fresas con Crema',25)">Agregar</button></div>
+<div class="card"><img src="./panque.jpg"><h3>Muffin de Chocolate</h3><p>$25</p><button onclick="agregar('Muffin de Chocolate',25)">Agregar</button></div>
+<div class="card"><img src="./relleno.jpg"><h3>Pay relleno</h3><p>$25</p><button onclick="agregar('Pay relleno',25)">Agregar</button></div>
 </div>
 </section>
 
+<!-- GOLOSINAS -->
 <section id="golocinas">
 <h2>Golocinas</h2>
 <div class="grid">
-<div class="card"><img src="./chidas.jpg" alt="Papas CHIDAS"><h3>Papas CHIDAS</h3><p>$25</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./bubulubu.jpg" alt="Bubulubu"><h3>Bubulubu</h3><p>$5</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./chicle.webp" alt="Chicles Trident"><h3>Chicles Trident</h3><p>$20</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./gomita.jpg" alt="Gomitas Delfin"><h3>Gomitas Delfin</h3><p>$15</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./mango.jpg" alt="Gomitas de Mango"><h3>Gomitas de Mango</h3><p>$15</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
-<div class="card"><img src="./pistache.webp" alt="Pistaches"><h3>Pistaches</h3><p>$10</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
+<div class="card"><img src="./chidas.jpg"><h3>Papas CHIDAS</h3><p>$25</p><button onclick="agregar('Papas CHIDAS',25)">Agregar</button></div>
+<div class="card"><img src="./bubulubu.jpg"><h3>Bubulubu</h3><p>$5</p><button onclick="agregar('Bubulubu',5)">Agregar</button></div>
+<div class="card"><img src="./chicle.webp"><h3>Chicles Trident</h3><p>$20</p><button onclick="agregar('Chicles Trident',20)">Agregar</button></div>
+<div class="card"><img src="./gomita.jpg"><h3>Gomitas Delfín</h3><p>$15</p><button onclick="agregar('Gomitas Delfín',15)">Agregar</button></div>
+<div class="card"><img src="./mango.jpg"><h3>Gomitas de Mango</h3><p>$15</p><button onclick="agregar('Gomitas de Mango',15)">Agregar</button></div>
+<div class="card"><img src="./pistache.webp"><h3>Pistaches</h3><p>$10</p><button onclick="agregar('Pistaches',10)">Agregar</button></div>
 </div>
 </section>
 
+<!-- FRUTA -->
 <section id="fruta">
 <h2>Fruta</h2>
 <div class="grid">
-<div class="card"><img src="./vaso.png" alt="Coctel de frutas"><h3>Coctel de frutas</h3><p>$25</p><button onclick="agregar('Refresco',18)">Agregar</button></div>
+<div class="card"><img src="./vaso.png"><h3>Cóctel de frutas</h3><p>$25</p><button onclick="agregar('Cóctel de frutas',25)">Agregar</button></div>
 </div>
 </section>
 
 <script>
 let carrito = [];
-
-// 🔢 OBTENER TICKET ACTUAL (AUTOINCREMENTAL)
 let ticket = localStorage.getItem("ticket");
-if(ticket === null){
-  ticket = 1;
-}else{
-  ticket = parseInt(ticket);
-}
+ticket = ticket ? parseInt(ticket) : 1;
 
 function agregar(nombre, precio){
   let prod = carrito.find(p => p.nombre === nombre);
-  if(prod){
-    prod.cantidad++;
-  }else{
-    carrito.push({nombre, precio, cantidad:1});
-  }
+  if(prod){ prod.cantidad++; }
+  else{ carrito.push({nombre, precio, cantidad:1}); }
   mostrarCarrito();
 }
 
 function cambiarCantidad(nombre, cambio){
   let prod = carrito.find(p => p.nombre === nombre);
   prod.cantidad += cambio;
-
   if(prod.cantidad <= 0){
     carrito = carrito.filter(p => p.nombre !== nombre);
   }
@@ -205,164 +148,48 @@ function cambiarCantidad(nombre, cambio){
 
 function mostrarCarrito(){
   const lista = document.getElementById("lista");
-  const total = document.getElementById("total");
-  lista.innerHTML="";
-  let suma=0;
+  const totalSpan = document.getElementById("total");
+  lista.innerHTML = "";
+  let total = 0;
 
   carrito.forEach(p=>{
-    suma += p.precio * p.cantidad;
+    total += p.precio * p.cantidad;
     lista.innerHTML += `
-      <li>
-        ${p.nombre}
+      <li>${p.nombre}
         <div class="cantidad">
           <button onclick="cambiarCantidad('${p.nombre}',-1)">−</button>
           ${p.cantidad}
           <button onclick="cambiarCantidad('${p.nombre}',1)">+</button>
         </div>
-      </li>
-    `;
+      </li>`;
   });
-
-  total.textContent = suma;
+  totalSpan.textContent = total;
 }
 
 function pagar(){
-  if(carrito.length === 0){
-    alert("El carrito está vacío");
-    return;
-  }
+  if(carrito.length === 0){ alert("El carrito está vacío"); return; }
 
-  let total = document.getElementById("total").textContent;
-
-  // 🧾 MOSTRAR TICKET
-  let mensaje = `🧾 UNI CAFE UATV\n\n`;
-  mensaje += `Ticket No: ${ticket}\n\n`;
-
-  carrito.forEach(p=>{
-    mensaje += `${p.nombre} x${p.cantidad} = $${p.precio * p.cantidad}\n`;
-  });
-
-  mensaje += `\nTOTAL: $${total}\n\nGracias por su compra 😊`;
-
-  alert(mensaje);
-
-  // 🔼 INCREMENTAR TICKET
-  ticket++;
-  localStorage.setItem("ticket", ticket);
-
-  // LIMPIAR CARRITO
-  carrito = [];
-  mostrarCarrito();
-}
-</script>
-
-
-<script>
-let carrito = [];
-
-let ticket = localStorage.getItem("ticket");
-if(ticket === null){
-  ticket = 1;
-}else{
-  ticket = parseInt(ticket);
-}
-
-function agregar(nombre, precio){
-  let prod = carrito.find(p => p.nombre === nombre);
-  if(prod){
-    prod.cantidad++;
-  }else{
-    carrito.push({nombre, precio, cantidad:1});
-  }
-  mostrarCarrito();
-}
-
-function cambiarCantidad(nombre, cambio){
-  let prod = carrito.find(p => p.nombre === nombre);
-  prod.cantidad += cambio;
-
-  if(prod.cantidad <= 0){
-    carrito = carrito.filter(p => p.nombre !== nombre);
-  }
-  mostrarCarrito();
-}
-
-function mostrarCarrito(){
-  const lista = document.getElementById("lista");
-  const total = document.getElementById("total");
-  lista.innerHTML="";
-  let suma=0;
-
-  carrito.forEach(p=>{
-    suma += p.precio * p.cantidad;
-    lista.innerHTML += `
-      <li>
-        ${p.nombre}
-        <div class="cantidad">
-          <button onclick="cambiarCantidad('${p.nombre}',-1)">−</button>
-          ${p.cantidad}
-          <button onclick="cambiarCantidad('${p.nombre}',1)">+</button>
-        </div>
-      </li>
-    `;
-  });
-
-  total.textContent = suma;
-}
-
-function pagar(){
-  if(carrito.length === 0){
-    alert("El carrito está vacío");
-    return;
-  }
-
-  const total = document.getElementById("total").textContent;
-
-  // 🧾 GENERAR PDF
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF();
-
   let y = 10;
-  pdf.setFontSize(14);
-  pdf.text("UNI CAFE UATV", 10, y);
-  y += 10;
 
-  pdf.setFontSize(11);
-  pdf.text(`Ticket No: ${ticket}`, 10, y);
-  y += 10;
+  pdf.text("UNI CAFE UATV",10,y); y+=10;
+  pdf.text(`Ticket No: ${ticket}`,10,y); y+=10;
 
   carrito.forEach(p=>{
-    pdf.text(`${p.nombre} x${p.cantidad} = $${p.precio * p.cantidad}`, 10, y);
-    y += 8;
+    pdf.text(`${p.nombre} x${p.cantidad} = $${p.precio*p.cantidad}`,10,y);
+    y+=8;
   });
 
-  y += 5;
-  pdf.text(`TOTAL: $${total}`, 10, y);
-  y += 10;
-  pdf.text("Gracias por su compra 😊", 10, y);
+  pdf.text(`TOTAL: $${document.getElementById("total").textContent}`,10,y+5);
+  pdf.text("Gracias por su compra 😊",10,y+15);
 
   pdf.save(`Ticket_${ticket}.pdf`);
-
-  // 🔼 AUMENTAR TICKET
-  ticket++;
-  localStorage.setItem("ticket", ticket);
-
-  carrito = [];
-  mostrarCarrito();
+  ticket++; localStorage.setItem("ticket",ticket);
+  carrito=[]; mostrarCarrito();
 }
 </script>
-
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 
