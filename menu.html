@@ -257,8 +257,105 @@ function pagar(){
 </script>
 
 
+<script>
+let carrito = [];
+
+let ticket = localStorage.getItem("ticket");
+if(ticket === null){
+  ticket = 1;
+}else{
+  ticket = parseInt(ticket);
+}
+
+function agregar(nombre, precio){
+  let prod = carrito.find(p => p.nombre === nombre);
+  if(prod){
+    prod.cantidad++;
+  }else{
+    carrito.push({nombre, precio, cantidad:1});
+  }
+  mostrarCarrito();
+}
+
+function cambiarCantidad(nombre, cambio){
+  let prod = carrito.find(p => p.nombre === nombre);
+  prod.cantidad += cambio;
+
+  if(prod.cantidad <= 0){
+    carrito = carrito.filter(p => p.nombre !== nombre);
+  }
+  mostrarCarrito();
+}
+
+function mostrarCarrito(){
+  const lista = document.getElementById("lista");
+  const total = document.getElementById("total");
+  lista.innerHTML="";
+  let suma=0;
+
+  carrito.forEach(p=>{
+    suma += p.precio * p.cantidad;
+    lista.innerHTML += `
+      <li>
+        ${p.nombre}
+        <div class="cantidad">
+          <button onclick="cambiarCantidad('${p.nombre}',-1)">−</button>
+          ${p.cantidad}
+          <button onclick="cambiarCantidad('${p.nombre}',1)">+</button>
+        </div>
+      </li>
+    `;
+  });
+
+  total.textContent = suma;
+}
+
+function pagar(){
+  if(carrito.length === 0){
+    alert("El carrito está vacío");
+    return;
+  }
+
+  const total = document.getElementById("total").textContent;
+
+  // 🧾 GENERAR PDF
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF();
+
+  let y = 10;
+  pdf.setFontSize(14);
+  pdf.text("UNI CAFE UATV", 10, y);
+  y += 10;
+
+  pdf.setFontSize(11);
+  pdf.text(`Ticket No: ${ticket}`, 10, y);
+  y += 10;
+
+  carrito.forEach(p=>{
+    pdf.text(`${p.nombre} x${p.cantidad} = $${p.precio * p.cantidad}`, 10, y);
+    y += 8;
+  });
+
+  y += 5;
+  pdf.text(`TOTAL: $${total}`, 10, y);
+  y += 10;
+  pdf.text("Gracias por su compra 😊", 10, y);
+
+  pdf.save(`Ticket_${ticket}.pdf`);
+
+  // 🔼 AUMENTAR TICKET
+  ticket++;
+  localStorage.setItem("ticket", ticket);
+
+  carrito = [];
+  mostrarCarrito();
+}
+</script>
+
+
 </body>
 </html>
+
 
 
 
