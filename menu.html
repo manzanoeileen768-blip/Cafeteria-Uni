@@ -52,6 +52,8 @@ button{background:var(--cafe-medio);color:white;border:none;padding:8px 15px;bor
 <button onclick="pagar()">Pagar</button>
 </div>
 
+<!-- 🔽🔽🔽 TUS SECCIONES (SIN CAMBIOS) 🔽🔽🔽 -->
+
 <!-- DESAYUNOS -->
 <section id="desayunos">
 <h2>Desayunos</h2>
@@ -130,6 +132,22 @@ let carrito = [];
 let ticket = localStorage.getItem("ticket");
 ticket = ticket ? parseInt(ticket) : 1;
 
+// 👤 USUARIO DESDE INDEX
+const params = new URLSearchParams(window.location.search);
+if(params.get("usuario")){
+  localStorage.setItem("usuario", params.get("usuario"));
+}
+const usuario = localStorage.getItem("usuario") || "Cliente";
+
+// 📅 FECHA Y HORA
+function obtenerFechaHora(){
+  const ahora = new Date();
+  return {
+    fecha: ahora.toLocaleDateString(),
+    hora: ahora.toLocaleTimeString()
+  };
+}
+
 function agregar(nombre, precio){
   let prod = carrito.find(p => p.nombre === nombre);
   if(prod){ prod.cantidad++; }
@@ -173,7 +191,12 @@ function pagar(){
   const pdf = new jsPDF();
   let y = 10;
 
-  pdf.text("UNI CAFE UATV",10,y); y+=10;
+  const { fecha, hora } = obtenerFechaHora();
+
+  pdf.text("UNI CAFE UATV",10,y); y+=8;
+  pdf.text(`Cliente: ${usuario}`,10,y); y+=8;
+  pdf.text(`Fecha: ${fecha}`,10,y); y+=6;
+  pdf.text(`Hora: ${hora}`,10,y); y+=8;
   pdf.text(`Ticket No: ${ticket}`,10,y); y+=10;
 
   carrito.forEach(p=>{
@@ -192,4 +215,3 @@ function pagar(){
 
 </body>
 </html>
-
