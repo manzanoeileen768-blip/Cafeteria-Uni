@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UNI CAFE UATV</title>
 
-<!-- jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
 :root{
 --cafe-oscuro:#a56232;
@@ -132,14 +129,14 @@ let carrito = [];
 let ticket = localStorage.getItem("ticket");
 ticket = ticket ? parseInt(ticket) : 1;
 
-// 👤 USUARIO DESDE INDEX
+// 👤 Usuario desde index
 const params = new URLSearchParams(window.location.search);
 if(params.get("usuario")){
   localStorage.setItem("usuario", params.get("usuario"));
 }
 const usuario = localStorage.getItem("usuario") || "Cliente";
 
-// 📅 FECHA Y HORA
+// 📅 Fecha y hora
 function obtenerFechaHora(){
   const ahora = new Date();
   return {
@@ -185,31 +182,31 @@ function mostrarCarrito(){
 }
 
 function pagar(){
-  if(carrito.length === 0){ alert("El carrito está vacío"); return; }
-
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF();
-  let y = 10;
+  if(carrito.length === 0){
+    alert("El carrito está vacío");
+    return;
+  }
 
   const { fecha, hora } = obtenerFechaHora();
-
-  pdf.text("UNI CAFE UATV",10,y); y+=8;
-  pdf.text(`Cliente: ${usuario}`,10,y); y+=8;
-  pdf.text(`Fecha: ${fecha}`,10,y); y+=6;
-  pdf.text(`Hora: ${hora}`,10,y); y+=8;
-  pdf.text(`Ticket No: ${ticket}`,10,y); y+=10;
+  let mensaje = `🧾 UNI CAFE UATV\n\n`;
+  mensaje += `Cliente: ${usuario}\n`;
+  mensaje += `Fecha: ${fecha}\n`;
+  mensaje += `Hora: ${hora}\n`;
+  mensaje += `Ticket No: ${ticket}\n\n`;
 
   carrito.forEach(p=>{
-    pdf.text(`${p.nombre} x${p.cantidad} = $${p.precio*p.cantidad}`,10,y);
-    y+=8;
+    mensaje += `${p.nombre} x${p.cantidad} = $${p.precio*p.cantidad}\n`;
   });
 
-  pdf.text(`TOTAL: $${document.getElementById("total").textContent}`,10,y+5);
-  pdf.text("Gracias por su compra 😊",10,y+15);
+  mensaje += `\nTOTAL: $${document.getElementById("total").textContent}\n\n`;
+  mensaje += `Gracias por su compra 😊`;
 
-  pdf.save(`Ticket_${ticket}.pdf`);
-  ticket++; localStorage.setItem("ticket",ticket);
-  carrito=[]; mostrarCarrito();
+  alert(mensaje);
+
+  ticket++;
+  localStorage.setItem("ticket", ticket);
+  carrito = [];
+  mostrarCarrito();
 }
 </script>
 
